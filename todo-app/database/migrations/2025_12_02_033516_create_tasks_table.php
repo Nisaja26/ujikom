@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('todos', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
         $table->id();
-        $table->string('title'); // nama tugas
-        $table->boolean('completed')->default(false); // status tugas
-        $table->string('priority')->default('medium'); // prioritas: low/medium/high
-        $table->date('date')->nullable(); // tanggal tugas
+        $table->string('name'); // nama tugas
+        $table->boolean('status')->default(false); // status tugas
+        $table->integer('priority')->default(3); // prioritas: low/medium/high
+        $table->date('due_date')->nullable(); // tanggal tugas
         $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('todos');
+        Schema::dropIfExists('tasks');
     }
 };
