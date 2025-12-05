@@ -32,7 +32,7 @@ class TaskController extends Controller
     {
         $validateData = $request->validate([
             'name' => 'required|string|max:255',
-            'priority' => 'required|integer',
+            'priority' => 'nullable|integer|between:1,3',
             'date' => 'nullable|date',
         ]);
 
@@ -43,7 +43,7 @@ class TaskController extends Controller
             'status' => false,
         ]);
 
-        return response()->json($task); 
+        return response()->json($task, 201); 
     }
 
     /**
@@ -65,16 +65,18 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,  $task)
+    public function update(Request $request, Task $task)
     {
         $validateData = $request->validate([
             'name' => 'sometimes|required|string|max:255',
-            'priority' => 'sometimes|required|integer',
+            'priority' => 'sometimes|nullable|integer|between;1,3',
             'due_date' => 'nullable|date',
             'status' => 'sometimes|boolean',
         ]);
 
-        // Kamu tidak membuat return di sini, jadi saya TIDAK menambahkan apapun
+        $task->update($validateData);
+
+        return response()->json($task);
     }
 
     /**
